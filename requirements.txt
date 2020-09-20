@@ -1,25 +1,8 @@
-import discord
-from discord.ext import commands
-from discord.ext.tasks import loop
-import asyncio
-import sqlite3
-import time
-from discord.ext.commands import has_permissions,RoleConverter, MemberConverter
-from datetime import datetime, timezone, timedelta
-import aiohttp
-import re
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-import json
-import youtube_dl
-import requests
-import spotipy
-from spotipy import util
-from spotipy.oauth2 import SpotifyClientCredentials
-import itertools
-import sys
-import os
-import traceback
-from async_timeout import timeout
-from functools import partial
-from youtube_dl import YoutubeDL
+discord
+asyncio
+selenium
+youtube_dl
+requests
+spotipy
+itertools
+functtools
