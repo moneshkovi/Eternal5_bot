@@ -15,7 +15,7 @@ import youtube_dl
 import requests
 import spotipy
 from spotipy import util
-from spotipy.oauth2 import SpotifyClientCredentialsF
+from spotipy.oauth2 import SpotifyClientCredentials
 import itertools
 import sys
 import os
