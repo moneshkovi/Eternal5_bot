@@ -4,3 +4,4 @@ selenium
 youtube_dl
 requests
 spotipy
+pynacl
