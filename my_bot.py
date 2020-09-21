@@ -746,11 +746,20 @@ async def whois(ctx, member:discord.Member):
         elif i.name == "Founder":
             ack = "Server Owner"
             break
-        elif i.name == "Admin":
-            ack = "Server Admin"
-            break
         elif i.name == "Executive":
             ack = "Server Admin"
+            break
+        elif i.name == "Administrator":
+            ack = "Server Admin"
+            break
+        elif i.name == "Content Creator":
+            ack = "Youtube Content Creator"
+            break
+        elif i.name == "GFX Artist":
+            ack = "Server GFX"
+            break
+        elif i.name == "BOTS":
+            ack = "Server Bot"
             break
         else:
             ack = "Server Member"
