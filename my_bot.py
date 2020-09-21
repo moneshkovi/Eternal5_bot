@@ -308,7 +308,7 @@ class Music(commands.Cog):
 
         await ctx.send(f'Connected to: **{channel}**', delete_after=20)
 
-    @commands.command(name="playlist")
+    @commands.command(name="playlist",help="Request songs frm spotify")
     async def playlist_(self, ctx, *, playlist):
 
         list =[]
@@ -608,7 +608,7 @@ async def assist(ctx):
 
 
 #HELP command for ADMINS
-@client.command()
+@client.command(name="assist_",help="administrative use only")
 @has_permissions(administrator=True)
 async def assist_(ctx):
     channel = ctx.message.channel
@@ -616,13 +616,16 @@ async def assist_(ctx):
     await channel.send('*COMMANDS                               -               DESCRIPTION*')
     await channel.send('*.announce @role @message     - Sends a DM to all the people who are in that particular role.*')
     await channel.send('*.purge                                             -  Deletes a number of messages specified by user.*')
-
+@assist_.error
+async def clear_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("**You don't have the permission!**")
 
 
 
 
 #about developer
-@client.command()
+@client.command(name="abt_devlpr", help="Know about the developer")
 async def abt_devlpr(ctx):
     channel = ctx.message.channel
     await channel.send(' <@599884619139121152> ')
@@ -632,6 +635,7 @@ async def abt_devlpr(ctx):
 
 
 @client.command(name="roles")
+@has_permissions(administrator=True)
 async def roles(ctx, rolename):
     role = discord.utils.get(ctx.guild.roles, name=rolename)
     if role is None:
@@ -643,12 +647,15 @@ async def roles(ctx, rolename):
             await ctx.send("{0.name}: {0.id}".format(member))
             empty = False
     if empty:
-        await ctx.send("Nobody has the role {}".format(role.mention))
-
+        await ctx.send("Nobody has the role {}". format(role.mention))
+@roles.error
+async def clear_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("**You don't have the permission!**")
 
 
 #command which send link to your DM ..(works only in #link to lobby **F5**)
-@client.command()
+@client.command(name="link", help="command to send room links to your DM")
 async def link(ctx):
     link_to_lobby_channel = 756570605410713641   #link_to_lobby_Eternal_Five
     if ctx.message.channel.id == link_to_lobby_channel:
@@ -692,7 +699,7 @@ async def clear_error(ctx, error):
 
 
 #anounces as per roles tagged.
-@client.command(name="announce")
+@client.command(name="announce",help="administrative purpose")
 @has_permissions(administrator=True)
 async def announce(ctx, role: discord.Role):
     def check(author):
@@ -711,24 +718,9 @@ async def announce(ctx, role: discord.Role):
 
 
 
-#recruit command
-@client.command(name="recruit")
-@has_permissions(administrator=True)
-async def recruit(ctx, member):
-    if ctx.channel.id == 751299855594291290: #channel_id
-        member = await MemberConverter().convert(ctx, member)
-        await member.send("You have been registered for interviewing. Please write yes.")
-    else:
-        await ctx.send("wrong channel")
-@recruit.error
-async def recruit_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send("**You don't have the permission!**")
-
-
 
 #whois comamnd to know anything SYNTAX - .whois @tag
-@client.command(name="whois")
+@client.command(name="whois",help="Get to know more about a person ")
 async def whois(ctx, member:discord.Member):
     list = []
     perm = []
@@ -743,8 +735,8 @@ async def whois(ctx, member:discord.Member):
         if i.name == "CEO":
             ack = "Server Owner"
             break
-        elif i.name == "Founder":
-            ack = "Server Owner"
+        elif i.name == "co-partner":
+            ack = "Equal rights on Server as CEO"
             break
         elif i.name == "Executive":
             ack = "Server Admin"
