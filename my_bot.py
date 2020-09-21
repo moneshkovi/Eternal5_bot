@@ -755,8 +755,26 @@ async def whois(ctx, member:discord.Member):
         elif i.name == "Content Creator":
             ack = "Youtube Content Creator"
             break
-        elif i.name == "GFX Artist":
-            ack = "Server GFX"
+        elif i.name == "Force 1":
+            ack = "Player for ForceOne eSports"
+            break
+        elif i.name == "iNSANE Esports":
+            ack = "Player for Insane eSports"
+            break
+        elif i.name == "Futurestation":
+            ack = "Player for Futurestation"
+            break
+        elif i.name == "True Ripper eSports":
+            ack = "Player for True Ripper eSports"
+            break
+        elif i.name == "Mayhem Esports":
+            ack = "Player for Mayhem Esports"
+            break
+        elif i.name == "Titans":
+            ack = "Player for Titans"
+            break
+        elif i.name == "Eternal Glory":
+            ack = "Player for Eternal Glory"
             break
         elif i.name == "BOTS":
             ack = "Server Bot"
