@@ -486,16 +486,7 @@ async def recruit(id):
 @client.event
 async def on_ready():
     print('Bot is online')
-    ...
-    client.loop.create_task(status_task())
-
-async def status_task():
-    await client.wait_until_ready()
-    counter = 0
-    channel = client.get_channel(711910042353270785) #staff_Chat_channel_id_Eternal_five
-    while not client.is_closed():
-        await channel.send("*<@599884619139121152> Please back me up,I'm at my limit*")
-        await asyncio.sleep(259200)
+ 
 
 
 
