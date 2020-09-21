@@ -534,7 +534,7 @@ async def on_message(message):
         overwrites = {
             guild.default_role: discord.PermissionOverwrite(read_messages=False),
         }
-        category = discord.utils.get(guild.categories, id=757286957859471462) #DM_bot_Category_id_eternal_five
+        category = discord.utils.get(guild.categories, id=757429118567448596) #DM_bot_Category_id_eternal_five
         channel = await guild.create_text_channel(f"{message.author.name}", overwrites=overwrites, category=category)
 
         em2 = discord.Embed(title="Message Send")
