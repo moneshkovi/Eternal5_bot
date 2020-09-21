@@ -4,4 +4,3 @@ selenium
 youtube_dl
 requests
 spotipy
-functtools
