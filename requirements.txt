@@ -6,3 +6,5 @@ requests
 spotipy
 pynacl
 ffmpeg
+discord.py[voice] ~= 0.16.0
+colorlog
