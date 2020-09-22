@@ -747,6 +747,9 @@ async def whois(ctx, member:discord.Member):
         elif i.name == "Content Creator":
             ack = "Youtube Content Creator"
             break
+        elif i.name == "Partners":
+            ack = "Server Partner"
+            break
         elif i.name == "Force 1":
             ack = "Player for ForceOne eSports"
             break
