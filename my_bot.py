@@ -34,6 +34,8 @@ redirect_uri='http://127.0.0.1:5000'
 client_credentials_manager = SpotifyClientCredentials(client_id=client_id,
 client_secret=client_secret)#Create manager for ease
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+
 client = discord.Client()
 client = commands.Bot(".")
 
@@ -227,7 +229,6 @@ class MusicPlayer(commands.Cog):
 
 class Music(commands.Cog):
     """Music related commands."""
-
     __slots__ = ('bot', 'players')
 
     def __init__(self, bot):
@@ -276,7 +277,7 @@ class Music(commands.Cog):
         return player
 
     @commands.command(name='connect', aliases=['join'])
-    async def connect_(self, ctx, *, channel: discord.VoiceChannel=None):
+    async def connect_(self, ctx, *, channel: discord.VoiceChannel = None):
         """Connect to voice.
         Parameters
         ------------
@@ -285,52 +286,61 @@ class Music(commands.Cog):
             will be made.
         This command also handles moving the bot to different channels.
         """
-        if not channel:
-            try:
-                channel = ctx.author.voice.channel
-            except AttributeError:
-                raise InvalidVoiceChannel('No channel to join. Please either specify a valid channel or join one.')
+        eternal_music_channel_id=758318514011373618
+        if ctx.channel.id==eternal_music_channel_id:
+            if not channel:
+                try:
+                    channel = ctx.author.voice.channel
+                except AttributeError:
+                    raise InvalidVoiceChannel('No channel to join. Please either specify a valid channel or join one.')
 
-        vc = ctx.voice_client
+            vc = ctx.voice_client
 
-        if vc:
-            if vc.channel.id == channel.id:
-                return
-            try:
-                await vc.move_to(channel)
-            except asyncio.TimeoutError:
-                raise VoiceConnectionError(f'Moving to channel: <{channel}> timed out.')
+            if vc:
+                if vc.channel.id == channel.id:
+                    return
+                try:
+                    await vc.move_to(channel)
+                except asyncio.TimeoutError:
+                    raise VoiceConnectionError(f'Moving to channel: <{channel}> timed out.')
+            else:
+                try:
+                    await channel.connect()
+                except asyncio.TimeoutError:
+                    raise VoiceConnectionError(f'Connecting to channel: <{channel}> timed out.')
+
+            await ctx.send(f'Connected to: **{channel}**', delete_after=20)
         else:
-            try:
-                await channel.connect()
-            except asyncio.TimeoutError:
-                raise VoiceConnectionError(f'Connecting to channel: <{channel}> timed out.')
+            await ctx.send("Your in the wrong channel,Please go to <#758318514011373618>")
 
-        await ctx.send(f'Connected to: **{channel}**', delete_after=20)
 
-    @commands.command(name="playlist",help="Request songs frm spotify")
+    @commands.command(name="playlist", help="Request songs frm spotify")
     async def playlist_(self, ctx, *, playlist):
+        eternal_music_channel_id = 758318514011373618
+        if ctx.channel.id == eternal_music_channel_id:
+            list = []
+            segment = playlist.rpartition('/')
+            playlist_id = 'spotify:user:spotifycharts:playlist:' + segment[2]
+            results = sp.playlist(playlist_id)
+            x = json.dumps(results, indent=4)
+            y = json.loads(x)
+            for i in y['tracks']['items']:
+                list.append(i['track']['name'])
+            await ctx.trigger_typing()
 
-        list =[]
-        segment = playlist.rpartition('/')
-        playlist_id = 'spotify:user:spotifycharts:playlist:'+segment[2]
-        results = sp.playlist(playlist_id)
-        x =  json.dumps(results,  indent=4)
-        y = json.loads(x)
-        for i in y['tracks']['items']:
-            list.append(i['track']['name'])
-        await ctx.trigger_typing()
+            vc = ctx.voice_client
 
-        vc = ctx.voice_client
+            if not vc:
+                await ctx.invoke(self.connect_)
 
-        if not vc:
-            await ctx.invoke(self.connect_)
+            player = self.get_player(ctx)
 
-        player = self.get_player(ctx)
+            for i in list:
+                source = await YTDLSource.create_source(ctx, i, loop=self.bot.loop, download=False)
+                await player.queue.put(source)
+        else:
+            await ctx.send("Your in the wrong channel,Please go to <#758318514011373618>")
 
-        for i in list:
-            source = await YTDLSource.create_source(ctx, i, loop=self.bot.loop, download=False)
-            await player.queue.put(source)
 
     @commands.command(name='play', aliases=['single'])
     async def play_(self, ctx, *, search: str):
@@ -339,106 +349,127 @@ class Music(commands.Cog):
         Uses YTDL to automatically search and retrieve a song.
         Parameters
         """
-        await ctx.trigger_typing()
+        eternal_music_channel_id = 758318514011373618
+        if ctx.channel.id == eternal_music_channel_id:
+            await ctx.trigger_typing()
 
-        vc = ctx.voice_client
+            vc = ctx.voice_client
 
-        if not vc:
-            await ctx.invoke(self.connect_)
+            if not vc:
+                await ctx.invoke(self.connect_)
 
-        player = self.get_player(ctx)
+            player = self.get_player(ctx)
 
-        # If download is False, source will be a dict which will be used later to regather the stream.
-        # If download is True, source will be a discord.FFmpegPCMAudio with a VolumeTransformer.
-        source = await YTDLSource.create_source(ctx, search, loop=self.bot.loop, download=True)
+            # If download is False, source will be a dict which will be used later to regather the stream.
+            # If download is True, source will be a discord.FFmpegPCMAudio with a VolumeTransformer.
+            source = await YTDLSource.create_source(ctx, search, loop=self.bot.loop, download=True)
 
-
-        await player.queue.put(source)
-
-
+            await player.queue.put(source)
+        else:
+            await ctx.send("Your in the wrong channel,Please go to <#758318514011373618>")
 
     @commands.command(name='pause')
     async def pause_(self, ctx):
         """Pause the currently playing song."""
-        vc = ctx.voice_client
+        eternal_music_channel_id = 758318514011373618
+        if ctx.channel.id == eternal_music_channel_id:
+            vc = ctx.voice_client
 
-        if not vc or not vc.is_playing():
-            return await ctx.send('I am not currently playing anything!', delete_after=20)
-        elif vc.is_paused():
-            return
+            if not vc or not vc.is_playing():
+                return await ctx.send('I am not currently playing anything!', delete_after=20)
+            elif vc.is_paused():
+                return
 
-        vc.pause()
-        await ctx.send(f'**`{ctx.author}`**: Paused the song!')
+            vc.pause()
+            await ctx.send(f'**`{ctx.author}`**: Paused the song!')
+        else:
+            await ctx.send("Your in the wrong channel,Please go to <#758318514011373618>")
 
     @commands.command(name='resume')
     async def resume_(self, ctx):
         """Resume the currently paused song."""
-        vc = ctx.voice_client
+        eternal_music_channel_id = 758318514011373618
+        if ctx.channel.id == eternal_music_channel_id:
+            vc = ctx.voice_client
 
-        if not vc or not vc.is_connected():
-            return await ctx.send('I am not currently playing anything!', delete_after=20)
-        elif not vc.is_paused():
-            return
+            if not vc or not vc.is_connected():
+                return await ctx.send('I am not currently playing anything!', delete_after=20)
+            elif not vc.is_paused():
+                return
 
-        vc.resume()
-        await ctx.send(f'**`{ctx.author}`**: Resumed the song!')
+            vc.resume()
+            await ctx.send(f'**`{ctx.author}`**: Resumed the song!')
+        else:
+            await ctx.send("Your in the wrong channel,Please go to <#758318514011373618>")
 
     @commands.command(name='skip')
     async def skip_(self, ctx):
         """Skip the song."""
-        vc = ctx.voice_client
+        eternal_music_channel_id = 758318514011373618
+        if ctx.channel.id == eternal_music_channel_id:
+            vc = ctx.voice_client
 
-        if not vc or not vc.is_connected():
-            return await ctx.send('I am not currently playing anything!', delete_after=20)
+            if not vc or not vc.is_connected():
+                return await ctx.send('I am not currently playing anything!', delete_after=20)
 
-        if vc.is_paused():
-            pass
-        elif not vc.is_playing():
-            return
+            if vc.is_paused():
+                pass
+            elif not vc.is_playing():
+                return
 
-        vc.stop()
-        await ctx.send(f'**`{ctx.author}`**: Skipped the song!')
+            vc.stop()
+            await ctx.send(f'**`{ctx.author}`**: Skipped the song!')
+        else:
+            await ctx.send("Your in the wrong channel,Please go to <#758318514011373618>")
 
     @commands.command(name='queue', aliases=['q'])
     async def queue_info(self, ctx):
         """Retrieve a basic queue of upcoming songs."""
-        vc = ctx.voice_client
+        eternal_music_channel_id = 758318514011373618
+        if ctx.channel.id == eternal_music_channel_id:
+            vc = ctx.voice_client
 
-        if not vc or not vc.is_connected():
-            return await ctx.send('I am not currently connected to voice!', delete_after=20)
+            if not vc or not vc.is_connected():
+                return await ctx.send('I am not currently connected to voice!', delete_after=20)
 
-        player = self.get_player(ctx)
-        if player.queue.empty():
-            return await ctx.send('There are currently no more queued songs.')
+            player = self.get_player(ctx)
+            if player.queue.empty():
+                return await ctx.send('There are currently no more queued songs.')
 
-        # Grab up to 5 entries from the queue...
-        upcoming = list(itertools.islice(player.queue._queue, 0, 5))
+            # Grab up to 5 entries from the queue...
+            upcoming = list(itertools.islice(player.queue._queue, 0, 5))
 
-        fmt = '\n'.join(f'**`{_["title"]}`**' for _ in upcoming)
-        embed = discord.Embed(title=f'Upcoming - Next {len(upcoming)}', description=fmt)
+            fmt = '\n'.join(f'**`{_["title"]}`**' for _ in upcoming)
+            embed = discord.Embed(title=f'Upcoming - Next {len(upcoming)}', description=fmt)
 
-        await ctx.send(embed=embed)
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("Your in the wrong channel,Please go to <#758318514011373618>")
 
     @commands.command(name='now_playing', aliases=['np', 'current', 'currentsong', 'playing'])
     async def now_playing_(self, ctx):
         """Display information about the currently playing song."""
-        vc = ctx.voice_client
+        eternal_music_channel_id = 758318514011373618
+        if ctx.channel.id == eternal_music_channel_id:
+            vc = ctx.voice_client
 
-        if not vc or not vc.is_connected():
-            return await ctx.send('I am not currently connected to voice!', delete_after=20)
+            if not vc or not vc.is_connected():
+                return await ctx.send('I am not currently connected to voice!', delete_after=20)
 
-        player = self.get_player(ctx)
-        if not player.current:
-            return await ctx.send('I am not currently playing anything!')
+            player = self.get_player(ctx)
+            if not player.current:
+                return await ctx.send('I am not currently playing anything!')
 
-        try:
-            # Remove our previous now_playing message.
-            await player.np.delete()
-        except discord.HTTPException:
-            pass
+            try:
+                # Remove our previous now_playing message.
+                await player.np.delete()
+            except discord.HTTPException:
+                pass
 
-        player.np = await ctx.send(f'**Now Playing:** `{vc.source.title}` '
-                                   f'requested by `{vc.source.requester}`')
+            player.np = await ctx.send(f'**Now Playing:** `{vc.source.title}` '
+                                       f'requested by `{vc.source.requester}`')
+        else:
+            await ctx.send("Your in the wrong channel,Please go to <#758318514011373618>")
 
     @commands.command(name='volume', aliases=['vol'])
     async def change_volume(self, ctx, *, vol: float):
@@ -448,21 +479,25 @@ class Music(commands.Cog):
         volume: float or int [Required]
             The volume to set the player to in percentage. This must be between 1 and 100.
         """
-        vc = ctx.voice_client
+        eternal_music_channel_id = 758318514011373618
+        if ctx.channel.id == eternal_music_channel_id:
+            vc = ctx.voice_client
 
-        if not vc or not vc.is_connected():
-            return await ctx.send('I am not currently connected to voice!', delete_after=20)
+            if not vc or not vc.is_connected():
+                return await ctx.send('I am not currently connected to voice!', delete_after=20)
 
-        if not 0 < vol < 101:
-            return await ctx.send('Please enter a value between 1 and 100.')
+            if not 0 < vol < 101:
+                return await ctx.send('Please enter a value between 1 and 100.')
 
-        player = self.get_player(ctx)
+            player = self.get_player(ctx)
 
-        if vc.source:
-            vc.source.volume = vol / 100
+            if vc.source:
+                vc.source.volume = vol / 100
 
-        player.volume = vol / 100
-        await ctx.send(f'**`{ctx.author}`**: Set the volume to **{vol}%**')
+            player.volume = vol / 100
+            await ctx.send(f'**`{ctx.author}`**: Set the volume to **{vol}%**')
+        else:
+            await ctx.send("Your in the wrong channel,Please go to <#758318514011373618>")
 
     @commands.command(name='stop')
     async def stop_(self, ctx):
@@ -470,19 +505,19 @@ class Music(commands.Cog):
         !Warning!
             This will destroy the player assigned to your guild, also deleting any queued songs and settings.
         """
-        vc = ctx.voice_client
+        eternal_music_channel_id = 758318514011373618
+        if ctx.channel.id == eternal_music_channel_id:
+            vc = ctx.voice_client
 
-        if not vc or not vc.is_connected():
-            return await ctx.send('I am not currently playing anything!', delete_after=20)
+            if not vc or not vc.is_connected():
+                return await ctx.send('I am not currently playing anything!', delete_after=20)
 
-        await self.cleanup(ctx.guild)
+            await self.cleanup(ctx.guild)
+        else:
+            await ctx.send("Your in the wrong channel,Please go to <#758318514011373618>")
+
 client.add_cog(Music(client))
 
-
-
-async def recruit(id):
-        channel = client.get_channel(744459670915252255)
-        await channel.send("hi")
 
 
 @client.event
@@ -492,7 +527,6 @@ async def on_ready():
 
 
 @client.event
-
 async def on_message(message):
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="Over E5"))
 
@@ -565,7 +599,9 @@ async def on_message(message):
         staff_chat_channel = 711910042353270785  # staff-chat_Eternal_five
         bot_commands_channel = 711907520624722031  # bot_commands_eternal_five
         bot_use_channel = 756916720530227292  # bot_use_eternal_five
-        if urls != [] and message.channel.id != 726294051032137729 and message.channel.id != 756563776056197180 and message.channel.id != 709592653762920559 and message.channel.id != 710758537839640596 and message.channel.id != 757087556725768212 and message.channel.id != 756570605410713641 and message.channel.id != 711910042353270785 and message.channel.id != 711907520624722031 and message.channel.id != 756916720530227292 :
+        eternal5_music_channel=758318514011373618 #eternal5_music_channel
+        media_channel=709596455987314708 #media_channel
+        if urls != [] and message.channel.id != 726294051032137729 and message.channel.id != 756563776056197180 and message.channel.id != 709592653762920559 and message.channel.id != 710758537839640596 and message.channel.id != 757087556725768212 and message.channel.id != 756570605410713641 and message.channel.id != 711910042353270785 and message.channel.id != 711907520624722031 and message.channel.id != 756916720530227292 and message.channel.id !=758318514011373618 and message.channel.id !=709596455987314708  :
             if spam.count(str(message.author.name)) >= 6:
                 await message.delete()
                 await message.channel.send("YOU ARE BANNED")
@@ -601,7 +637,6 @@ async def assist(ctx):
      await channel.send('*COMMANDS                      -              DESCRIPTION*')
      await channel.send('*.assist                                    -          Gives a brief of all the commands* .')
      await channel.send('*.link                                        -          Sends link to your DM(works only in <#756570605410713641>)*.')
-     await channel.send('*.whois @tag                        -            Gives you a brief on a person*.')
      await channel.send('*.abt_devlpr                          -           Allows you to know about developer* .')
 
 
@@ -615,12 +650,13 @@ async def assist_(ctx):
     channel = ctx.message.channel
     await channel.send('**ONLY FOR ADMINS**')
     await channel.send('*COMMANDS                               -               DESCRIPTION*')
+    await channel.send('*.whois @tag                        -            Gives you a brief on a person*.')
     await channel.send('*.announce @role @message     - Sends a DM to all the people who are in that particular role.*')
     await channel.send('*.purge                                             -  Deletes a number of messages specified by user.*')
 @assist_.error
 async def clear_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send("**You don't have the permission!**")
+        await ctx.send("**You don't have the permission to invoke this command!**")
 
 
 
@@ -652,7 +688,7 @@ async def roles(ctx, rolename):
 @roles.error
 async def clear_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send("**You don't have the permission!**")
+        await ctx.send("**You don't have the permission to invoke this command!**")
 
 
 #command which send link to your DM ..(works only in #link to lobby **F5**)
@@ -687,7 +723,7 @@ async def link(ctx):
 
 
 #purge command
-@client.command(name="purge", help="administrator only purges messages")
+@client.command(name="purge", help="Adminstrative Use")
 @has_permissions(administrator=True)
 async def purge(ctx, limit: int):
         await ctx.channel.purge(limit=limit)
@@ -696,11 +732,11 @@ async def purge(ctx, limit: int):
 @purge.error
 async def clear_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send("**You don't have the permission!**")
+        await ctx.send("**You don't have the permission to invoke this command!**")
 
 
 #anounces as per roles tagged.
-@client.command(name="announce",help="administrative purpose")
+@client.command(name="announce",help="administrative Use")
 @has_permissions(administrator=True)
 async def announce(ctx, role: discord.Role):
     def check(author):
@@ -715,13 +751,17 @@ async def announce(ctx, role: discord.Role):
       for i in role.members:
           await i.send(embed=em)
     await ctx.send("*Annoucement Done !*")
-
+@announce.error
+async def clear_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("**You don't have the permission to invoke this command!**")
 
 
 
 
 #whois comamnd to know anything SYNTAX - .whois @tag
-@client.command(name="whois",help="Get to know more about a person ")
+@client.command(name="whois",help="Adminstitative Use ")
+@has_permissions(administrator=True)
 async def whois(ctx, member:discord.Member):
     list = []
     perm = []
@@ -747,9 +787,6 @@ async def whois(ctx, member:discord.Member):
             break
         elif i.name == "Content Creator":
             ack = "Youtube Content Creator"
-            break
-        elif i.name == "Partners":
-            ack = "Server Partner"
             break
         elif i.name == "Force 1":
             ack = "Player for ForceOne eSports"
@@ -783,6 +820,9 @@ async def whois(ctx, member:discord.Member):
             perm.append(i[0])
     em.add_field(name="permission", value=", ".join(str(v) for v in perm))
     await ctx.send(embed=em)
-
+@whois.error
+async def clear_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("**You don't have the permission to invoke this command!**")
 
 client.run("NzM5NTIzOTYxMzA5NjI2Mzcw.XybtXA.znpr_0Ta5lv05pcG1AwunsUz2E4")
