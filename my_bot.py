@@ -594,14 +594,19 @@ async def on_message(message):
         our_patners_channel = 756563776056197180  # our_patners_Etneral_five
         announcements_channel = 709592653762920559  # announcement_eternal_five
         youtube_channel = 710758537839640596  # youtube_Eternal_five
-        overview_channel = 757087556725768212  # overview_Eternal_five
+        roadmap_rules_channel = 757087556725768212  # roadmap_and_rules_Eternal_five
         link_to_lobby_channel = 756570605410713641  # link_to_lobby_Etneral_five
         staff_chat_channel = 711910042353270785  # staff-chat_Eternal_five
         bot_commands_channel = 711907520624722031  # bot_commands_eternal_five
         bot_use_channel = 756916720530227292  # bot_use_eternal_five
         eternal5_music_channel=758318514011373618 #eternal5_music_channel
         media_channel=709596455987314708 #media_channel
-        if urls != [] and message.channel.id != 726294051032137729 and message.channel.id != 756563776056197180 and message.channel.id != 709592653762920559 and message.channel.id != 710758537839640596 and message.channel.id != 757087556725768212 and message.channel.id != 756570605410713641 and message.channel.id != 711910042353270785 and message.channel.id != 711907520624722031 and message.channel.id != 756916720530227292 and message.channel.id !=758318514011373618 and message.channel.id !=709596455987314708  :
+        announcement_battle_of_clans = 757294345434169454 #announcement_battle_of_clans_channel
+        group_a = 760436101097324594 #group_a_channel
+        group_b = 760436226473328670 #group_b_channel
+        group_c = 760436419725623316 #group_c_channel
+        group_d = 760436509475471360 #group_d_channel
+        if urls != [] and message.channel.id != 726294051032137729 and message.channel.id != 756563776056197180 and message.channel.id != 709592653762920559 and message.channel.id != 710758537839640596 and message.channel.id != 757087556725768212 and message.channel.id != 756570605410713641 and message.channel.id != 711910042353270785 and message.channel.id != 711907520624722031 and message.channel.id != 756916720530227292 and message.channel.id !=758318514011373618 and message.channel.id !=709596455987314708 and message.channel.id !=757294345434169454 and message.channel.id != 760436101097324594 and message.channel.id !=760436226473328670 and message.channel.id !=760436419725623316 and message.channel.id !=760436509475471360:
             if spam.count(str(message.author.name)) >= 6:
                 await message.delete()
                 await message.channel.send("YOU ARE BANNED")
@@ -630,6 +635,7 @@ async def on_message(message):
 
 
 
+
 #HELP command for users
 @client.command()
 async def assist(ctx):
@@ -644,14 +650,14 @@ async def assist(ctx):
 
 
 #HELP command for ADMINS
-@client.command(name="assist_",help="administrative use only")
+@client.command(name="assist_",help="Administrative Use")
 @has_permissions(administrator=True)
 async def assist_(ctx):
     channel = ctx.message.channel
     await channel.send('**ONLY FOR ADMINS**')
     await channel.send('*COMMANDS                               -               DESCRIPTION*')
     await channel.send('*.whois @tag                        -            Gives you a brief on a person*.')
-    await channel.send('*.announce @role @message     - Sends a DM to all the people who are in that particular role.*')
+    await channel.send('*.announce @role     - Sends a DM to all the people who are in that particular role.*')
     await channel.send('*.purge                                             -  Deletes a number of messages specified by user.*')
 @assist_.error
 async def clear_error(ctx, error):
@@ -671,7 +677,8 @@ async def abt_devlpr(ctx):
 
 
 
-@client.command(name="roles")
+
+@client.command(name="roles",help="Administrative Use")
 @has_permissions(administrator=True)
 async def roles(ctx, rolename):
     role = discord.utils.get(ctx.guild.roles, name=rolename)
@@ -691,8 +698,10 @@ async def clear_error(ctx, error):
         await ctx.send("**You don't have the permission to invoke this command!**")
 
 
+
+
 #command which send link to your DM ..(works only in #link to lobby **F5**)
-@client.command(name="link", help="command to send room links to your DM")
+@client.command(name="link", help="Command to send room links to your DM")
 async def link(ctx):
     link_to_lobby_channel = 756570605410713641   #link_to_lobby_Eternal_Five
     if ctx.message.channel.id == link_to_lobby_channel:
@@ -723,11 +732,10 @@ async def link(ctx):
 
 
 #purge command
-@client.command(name="purge", help="Adminstrative Use")
+@client.command(name="purge", help="Administrative Use")
 @has_permissions(administrator=True)
 async def purge(ctx, limit: int):
         await ctx.channel.purge(limit=limit)
-        await ctx.send('Cleared by {}'.format(ctx.author.mention))
         await ctx.message.delete()
 @purge.error
 async def clear_error(ctx, error):
@@ -735,8 +743,10 @@ async def clear_error(ctx, error):
         await ctx.send("**You don't have the permission to invoke this command!**")
 
 
+
+
 #anounces as per roles tagged.
-@client.command(name="announce",help="administrative Use")
+@client.command(name="announce",help="Administrative Use")
 @has_permissions(administrator=True)
 async def announce(ctx, role: discord.Role):
     def check(author):
@@ -760,7 +770,7 @@ async def clear_error(ctx, error):
 
 
 #whois comamnd to know anything SYNTAX - .whois @tag
-@client.command(name="whois",help="Adminstitative Use ")
+@client.command(name="whois",help="Administrative Use ")
 @has_permissions(administrator=True)
 async def whois(ctx, member:discord.Member):
     list = []
@@ -806,9 +816,6 @@ async def whois(ctx, member:discord.Member):
         elif i.name == "Titans":
             ack = "Player for Titans"
             break
-        elif i.name == "Eternal Glory":
-            ack = "Player for Eternal Glory"
-            break
         elif i.name == "BOTS":
             ack = "Server Bot"
             break
@@ -824,5 +831,7 @@ async def whois(ctx, member:discord.Member):
 async def clear_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("**You don't have the permission to invoke this command!**")
+
+
 
 client.run("NzM5NTIzOTYxMzA5NjI2Mzcw.XybtXA.znpr_0Ta5lv05pcG1AwunsUz2E4")
