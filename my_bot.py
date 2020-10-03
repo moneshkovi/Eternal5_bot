@@ -595,18 +595,14 @@ async def on_message(message):
         announcements_channel = 709592653762920559  # announcement_eternal_five
         youtube_channel = 710758537839640596  # youtube_Eternal_five
         roadmap_rules_channel = 757087556725768212  # roadmap_and_rules_Eternal_five
-        link_to_lobby_channel = 756570605410713641  # link_to_lobby_Etneral_five
+        Slot_list_link_channel = 760373274793345034  # Slot_list_&_link_Etneral_five 
         staff_chat_channel = 711910042353270785  # staff-chat_Eternal_five
         bot_commands_channel = 711907520624722031  # bot_commands_eternal_five
         bot_use_channel = 756916720530227292  # bot_use_eternal_five
         eternal5_music_channel=758318514011373618 #eternal5_music_channel
         media_channel=709596455987314708 #media_channel
         announcement_battle_of_clans = 757294345434169454 #announcement_battle_of_clans_channel
-        group_a = 760436101097324594 #group_a_channel
-        group_b = 760436226473328670 #group_b_channel
-        group_c = 760436419725623316 #group_c_channel
-        group_d = 760436509475471360 #group_d_channel
-        if urls != [] and message.channel.id != 726294051032137729 and message.channel.id != 756563776056197180 and message.channel.id != 709592653762920559 and message.channel.id != 710758537839640596 and message.channel.id != 757087556725768212 and message.channel.id != 756570605410713641 and message.channel.id != 711910042353270785 and message.channel.id != 711907520624722031 and message.channel.id != 756916720530227292 and message.channel.id !=758318514011373618 and message.channel.id !=709596455987314708 and message.channel.id !=757294345434169454 and message.channel.id != 760436101097324594 and message.channel.id !=760436226473328670 and message.channel.id !=760436419725623316 and message.channel.id !=760436509475471360:
+        if urls != [] and message.channel.id != 726294051032137729 and message.channel.id != 756563776056197180 and message.channel.id != 709592653762920559 and message.channel.id != 710758537839640596 and message.channel.id != 757087556725768212 and message.channel.id != 760373274793345034 and message.channel.id != 711910042353270785 and message.channel.id != 711907520624722031 and message.channel.id != 756916720530227292 and message.channel.id !=758318514011373618 and message.channel.id !=709596455987314708 and message.channel.id !=757294345434169454 :
             if spam.count(str(message.author.name)) >= 6:
                 await message.delete()
                 await message.channel.send("YOU ARE BANNED")
