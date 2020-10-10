@@ -573,54 +573,34 @@ async def on_message(message):
     else:
         if message.author == client.user:
                 return
-        with open("user.json","r+") as f:
-                data = json.load(f)
 
-        for i in data:
-            if i['name'] ==str(message.author.name):
-                i.update({"name": str(message.author.name), "points": len(message.content.split())+int(i['points'])})
-                hello = "yes"
-                break
-            else:
-                hello="no"
-        if hello !="yes":
-            data.append({"name": str(message.author.name), "points":  len(message.content.split())})
-        with open("user.json","w") as f:
-                json.dump(data, f)
         text = message.content
-        urls =[]
+        urls = []
         urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
-        Connect_with_us_channel = 726294051032137729  # Connect_with_us_Eernal_five
-        our_patners_channel = 756563776056197180  # our_patners_Etneral_five
-        announcements_channel = 709592653762920559  # announcement_eternal_five
-        youtube_channel = 710758537839640596  # youtube_Eternal_five
-        roadmap_rules_channel = 757087556725768212  # roadmap_and_rules_Eternal_five
-        Slot_list_link_channel = 760373274793345034  # Slot_list_&_link_Etneral_five 
-        staff_chat_channel = 711910042353270785  # staff-chat_Eternal_five
-        bot_commands_channel = 711907520624722031  # bot_commands_eternal_five
-        bot_use_channel = 756916720530227292  # bot_use_eternal_five
-        eternal5_music_channel=758318514011373618 #eternal5_music_channel
-        media_channel=709596455987314708 #media_channel
-        announcement_battle_of_clans = 757294345434169454 #announcement_battle_of_clans_channel
-        if urls != [] and message.channel.id != 726294051032137729 and message.channel.id != 756563776056197180 and message.channel.id != 709592653762920559 and message.channel.id != 710758537839640596 and message.channel.id != 757087556725768212 and message.channel.id != 760373274793345034 and message.channel.id != 711910042353270785 and message.channel.id != 711907520624722031 and message.channel.id != 756916720530227292 and message.channel.id !=758318514011373618 and message.channel.id !=709596455987314708 and message.channel.id !=757294345434169454 :
+        for i in message.author.roles:
+            if i.name == "CEO" or i.name == "co-partner" or i.name == "Executive" or i.name == "Administrator" or i.name == "BOTS":
+                await client.process_commands(message)
+                return
+
+        if urls != []:
             if spam.count(str(message.author.name)) >= 6:
                 await message.delete()
                 await message.channel.send("YOU ARE BANNED")
                 val = str(message.author.name)
                 try:
-	                while True:
-		                      spam.remove(val)
+                    while True:
+                        spam.remove(val)
                 except ValueError:
-	                   pass
+                    pass
                 print(spam)
             elif spam.count(str(message.author.name)) >= 3:
-                 await message.delete()
-                 role = discord.utils.get(message.guild.roles, name="Muted")
-                 await message.author.add_roles(role)
-                 await message.channel.send("You are muted")
-                 await asyncio.sleep(50)
-                 await message.author.remove_roles(role)
-                 await message.channel.send("ok times up")
+                await message.delete()
+                role = discord.utils.get(message.guild.roles, name="Muted")
+                await message.author.add_roles(role)
+                await message.channel.send("You are muted")
+                await asyncio.sleep(50)
+                await message.author.remove_roles(role)
+                await message.channel.send("ok times up")
             else:
                 await message.delete()
                 await message.channel.send(f"No links allowed {message.author.mention}")
@@ -806,11 +786,14 @@ async def whois(ctx, member:discord.Member):
         elif i.name == "True Ripper eSports":
             ack = "Player for True Ripper eSports"
             break
+        elif i.name == "Galaxy Racer":
+            ack = "Player for Galaxy Racer"
+            break
         elif i.name == "Mayhem Esports":
             ack = "Player for Mayhem Esports"
             break
-        elif i.name == "Titans":
-            ack = "Player for Titans"
+        elif i.name == "Heroes Offical":
+            ack = "Player for Heroes Offical"
             break
         elif i.name == "BOTS":
             ack = "Server Bot"
