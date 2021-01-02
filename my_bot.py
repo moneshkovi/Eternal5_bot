@@ -780,8 +780,8 @@ async def whois(ctx, member:discord.Member):
         elif i.name == "iNSANE Esports":
             ack = "Player for Insane eSports"
             break
-        elif i.name == "Futurestation":
-            ack = "Player for Futurestation"
+        elif i.name == "BLIND eSports":
+            ack = "Player for BLIND eSports"
             break
         elif i.name == "True Ripper eSports":
             ack = "Player for True Ripper eSports"
