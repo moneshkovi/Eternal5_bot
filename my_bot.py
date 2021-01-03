@@ -35,9 +35,12 @@ client_credentials_manager = SpotifyClientCredentials(client_id=client_id,
 client_secret=client_secret)#Create manager for ease
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
+intents = discord.Intents.default()
+intents.members = True
+client = commands.Bot(command_prefix='.', intents=intents)
 
-client = discord.Client()
-client = commands.Bot(".")
+#client = discord.Client()
+#client = commands.Bot(".")
 
 rol = []
 spam =[]
@@ -659,7 +662,7 @@ async def abt_devlpr(ctx):
 async def roles(ctx, rolename):
     role = discord.utils.get(ctx.guild.roles, name=rolename)
     if role is None:
-        await ctx.send(f"There is no{rolename}  role on this server!")
+        await ctx.send(f"There is no {rolename}  role on this server!")
         return
     empty = True
     for member in ctx.guild.members:
@@ -722,25 +725,33 @@ async def clear_error(ctx, error):
 
 
 #anounces as per roles tagged.
-@client.command(name="announce",help="Administrative Use")
+@client.command(name="announce", help="Administrative Use")
 @has_permissions(administrator=True)
 async def announce(ctx, role: discord.Role):
-    def check(author):
-        def inner_check(message):
-            return message.author == author
-        return inner_check
-    await ctx.send("*Type your message*")
-    x= await client.wait_for('message',check =check(ctx.author))
-    if x:
-      em = discord.Embed(title="Announcement")
-      em.add_field(name=f"{ctx.author}",     value=f"{x.content}")
-      for i in role.members:
-          await i.send(embed=em)
-    await ctx.send("*Annoucement Done !*")
-@announce.error
-async def clear_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send("**You don't have the permission to invoke this command!**")
+    s_count = 0
+    f_count = 0
+    def check(m):
+        return m.author.id == ctx.message.author.id
+    await ctx.send("TYPE YOUR MESSAGE")
+    try:
+        x = await client.wait_for('message', check=check,timeout=60)
+        if x.content is not None:
+            em1 = discord.Embed(title="Announcement")
+            em1.add_field(name=f"{ctx.author}",     value=f"{x.content}")
+            role = ctx.message.guild.get_role(role.id)
+            mems = role.members
+            for person in mems:
+                try:
+                    await person.send(embed=em1)
+                    s_count += 1
+                except:
+                    f_count += 1
+            desc = f"Successfull reaches = {s_count} \nFailed reaches = {f_count}"
+            emb1 = discord.Embed(title="Announcement Status", description=desc)
+            await ctx.send("Annoucement process completed",embed=emb1)
+    except asyncio.TimeoutError:
+        await ctx.send("Canncelling the process due to timeout")
+
 
 
 
@@ -780,8 +791,8 @@ async def whois(ctx, member:discord.Member):
         elif i.name == "iNSANE Esports":
             ack = "Player for Insane eSports"
             break
-        elif i.name == "BLIND eSports":
-            ack = "Player for BLIND eSports"
+        elif i.name == "Futurestation":
+            ack = "Player for Futurestation"
             break
         elif i.name == "True Ripper eSports":
             ack = "Player for True Ripper eSports"
@@ -797,6 +808,9 @@ async def whois(ctx, member:discord.Member):
             break
         elif i.name == "BOTS":
             ack = "Server Bot"
+            break
+        elif i.name == "EternalFive Offical":
+            ack = "EternalFive"
             break
         else:
             ack = "Server Member"
