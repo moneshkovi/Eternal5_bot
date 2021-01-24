@@ -581,7 +581,7 @@ async def on_message(message):
         urls = []
         urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
         for i in message.author.roles:
-            if i.name == "CEO" or i.name == "co-partner" or i.name == "Executive" or i.name == "Administrator" or i.name == "BOTS":
+            if i.name == "CEO" or i.name == "co-partner" or i.name == "Executive" or i.name == "Administrator" or i.name == "BOTS" or i.name == 'Subscrybe':
                 await client.process_commands(message)
                 return
 
