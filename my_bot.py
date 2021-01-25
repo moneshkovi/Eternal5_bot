@@ -744,7 +744,7 @@ async def update(ctx):
     embed1 = discord.Embed(color=discord.Color.blue())
     embed1.add_field(name='Update Service', value=value, inline=False)
     embed1.set_footer(text='**100% Complete**', icon_url=F5_icon
-    await user.send(embed=embed1)
+    await ctx.send(embed=embed1)
     
     time.sleep(10)
     await ctx.send("**10%** Done")
