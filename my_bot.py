@@ -751,8 +751,8 @@ async def update(ctx):
         await ctx.send("-")
         await ctx.channel.purge(limit=1)
         await ctx.send("\\")
-        await ctx.channel.purge(limit=7)
-    
+        await ctx.channel.purge(limit=1)
+    await ctx.channel.ourge(limit=6)
     await ctx.send(" Bot is fully functional & updated. <@599884619139121152> ")
 @purge.error
 async def clear_error(ctx, error):
