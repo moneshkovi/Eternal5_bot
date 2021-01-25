@@ -753,8 +753,11 @@ async def update(ctx):
         await ctx.send("\\")
         await ctx.channel.purge(limit=7)
     
-   await ctx.send(" Bot is fully functional & updated. <@599884619139121152> ")
-    
+    await ctx.send(" Bot is fully functional & updated. <@599884619139121152> ")
+@purge.error
+async def clear_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("**You don't have the permission to invoke this command!**")
 
 
                             
