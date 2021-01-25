@@ -728,7 +728,9 @@ async def clear_error(ctx, error):
 async def update(ctx):
     await ctx.message.delete()
     await ctx.send("Bot is updating, Please wait untill the proccess completes")
-    await ctx.send(".")
+    time.sleep(10)
+    await ctx.send("")
+    
     await ctx.send("Bot as been updated <@599884619139121152> ")
 
 
