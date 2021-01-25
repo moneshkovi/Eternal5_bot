@@ -730,22 +730,6 @@ async def update(ctx):
     await ctx.send("Bot is updating, Please wait untill the proccess completes")
     await ctx.send("ETA: **150** Seconds")
     
-    for i in range(10):
-        await ctx.send("|")
-        await ctx.channel.purge(limit=1)
-        await ctx.send("/")
-        await ctx.channel.purge(limit=1)
-        await ctx.send("-")
-        await ctx.channel.purge(limit=1)
-        await ctx.send("\\")
-        await ctx.channel.purge(limit=7)
-    
-    value= ' Bot is fully functional & updated. <@599884619139121152> '
-    embed1 = discord.Embed(color=discord.Color.blue())
-    embed1.add_field(name='Update Service', value=value, inline=False)
-    embed1.set_footer(text='**100% Complete**', icon_url=F5_icon
-    await ctx.channel.send(embed=embed1)
-    
     time.sleep(10)
     await ctx.send("**10%** Done")
     time.sleep(15)
@@ -758,8 +742,18 @@ async def update(ctx):
     await ctx.send("**90%** Done")
     time.sleep(25)
     await ctx.send("**99%** Done")
- 
-   
+    
+    for i in range(10):
+        await ctx.send("|")
+        await ctx.channel.purge(limit=1)
+        await ctx.send("/")
+        await ctx.channel.purge(limit=1)
+        await ctx.send("-")
+        await ctx.channel.purge(limit=1)
+        await ctx.send("\\")
+        await ctx.channel.purge(limit=7)
+    
+   await ctx.send(" Bot is fully functional & updated. <@599884619139121152> ")
     
 
 
