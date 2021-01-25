@@ -526,6 +526,7 @@ client.add_cog(Music(client))
 @client.event
 async def on_ready():
     print('Bot is online')
+    await ctx.send("Bot as been updated <@599884619139121152> ")
 
 
 
