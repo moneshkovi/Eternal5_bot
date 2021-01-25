@@ -724,7 +724,7 @@ async def clear_error(ctx, error):
                             
                             
                             
-@client.command(name="update", help="Administrative Use"):
+@client.command(name="update", help="Administrative Use")
 async def update(ctx):
     await ctx.message.delete()
     await ctx.send("Bot is updating, Please wait untill the proccess completes")
