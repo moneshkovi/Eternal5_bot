@@ -736,7 +736,7 @@ async def update(ctx):
         await ctx.message.delete()
         await ctx.send("-")
         await ctx.message.delete()
-        await ctx.send("\")
+        await ctx.send("\\")
     time.sleep(10)
     await ctx.send("**10%** Done")
     time.sleep(15)
