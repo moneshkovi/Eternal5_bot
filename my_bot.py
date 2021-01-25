@@ -526,9 +526,8 @@ client.add_cog(Music(client))
 @client.event
 async def on_ready():
     print('Bot is online')
-    await ctx.send("Bot as been updated <@599884619139121152> ")
-
-
+         
+                          
 
 @client.event
 async def on_message(message):
@@ -582,7 +581,7 @@ async def on_message(message):
         urls = []
         urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
         for i in message.author.roles:
-            if i.name == "CEO" or i.name == "co-partner" or i.name == "Executive" or i.name == "Administrator" or i.name == "BOTS" or i.name == 'Subscrybe':
+            if i.name == "CEO" or i.name == "co-partner" or i.name == "Executive" or i.name == "Administrator" or i.name == "BOTS":
                 await client.process_commands(message)
                 return
 
@@ -722,9 +721,19 @@ async def clear_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("**You don't have the permission to invoke this command!**")
 
+                            
+                            
+                            
+@client.command(name="update", help="Administrative Use"):
+async def update(ctx):
+    await ctx.message.delete()
+    await ctx.send("Bot is updating, Please wait untill the proccess completes")
+    await ctx.send(.)
+    await ctx.send("Bot as been updated <@599884619139121152> ")
 
 
-
+                            
+                            
 #anounces as per roles tagged.
 @client.command(name="announce", help="Administrative Use")
 @has_permissions(administrator=True)
