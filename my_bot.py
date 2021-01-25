@@ -739,7 +739,12 @@ async def update(ctx):
     time.sleep(25)
     await ctx.send("90% Done")
     time.sleep(25)
-    await ctx.send(99% Done")
+    await ctx.send("99% Done")
+    await ctx.send(".")
+    time.sleep(1)
+    await ctx.send("..")
+    time.sleep(1)
+    await ctx.send("...")
     
     await ctx.send("Bot as been updated <@599884619139121152> ")
 
