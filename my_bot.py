@@ -729,8 +729,17 @@ async def update(ctx):
     await ctx.message.delete()
     await ctx.send("Bot is updating, Please wait untill the proccess completes")
     time.sleep(10)
-    await ctx.send("")
-    
+    await ctx.send("10% Done")
+    time.sleep(10)
+    await.ctx.send("35% Done")
+    time.sleep(25)
+    await.ctx.send("50% Done")
+    time.sleep(15)
+    await.ctx.send("75% Done")
+    time.sleep(15)
+    await.ctx.send("90% Done")
+    time.sleep(15)
+    await.ctx.send(99% Done")
     await ctx.send("Bot as been updated <@599884619139121152> ")
 
 
