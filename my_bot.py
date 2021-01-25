@@ -729,6 +729,14 @@ async def update(ctx):
     await ctx.message.delete()
     await ctx.send("Bot is updating, Please wait untill the proccess completes")
     await ctx.send("ETA: **150** Seconds")
+    for i in range(10):
+        await ctx.send("|")
+        await message.delete()
+        await ctx.send("/")
+        await ctx.message.delete()
+        await ctx.send("-")
+        await ctx.message.delete()
+        await ctx.send("\")
     time.sleep(10)
     await ctx.send("**10%** Done")
     time.sleep(15)
@@ -741,19 +749,9 @@ async def update(ctx):
     await ctx.send("**90%** Done")
     time.sleep(25)
     await ctx.send("**99%** Done")
-    await ctx.send(".")
-    time.sleep(1)
-    await ctx.send("..")
-    time.sleep(1)
-    await ctx.send("...")
-    await ctx.message.delete()
-    await ctx.message.delete()
-    await ctx.message.delete()
-    await ctx.message.delete()
-    await ctx.message.delete()
-    await ctx.message.delete()
-    await ctx.message.delete()
-    await ctx.message.delete()
+
+    
+    
     
     await ctx.send("Bot is fully functional & updated. <@599884619139121152> ")
 
