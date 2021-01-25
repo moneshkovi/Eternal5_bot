@@ -731,7 +731,7 @@ async def update(ctx):
     await ctx.send("ETA: **150** Seconds")
     for i in range(10):
         await ctx.send("|")
-        await message.delete()
+        await ctx.message.delete()
         await ctx.send("/")
         await ctx.message.delete()
         await ctx.send("-")
