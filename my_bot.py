@@ -866,4 +866,4 @@ async def clear_error(ctx, error):
 
 
 
-client.run("NzM5NTIzOTYxMzA5NjI2Mzcw.XybtXA.znpr_0Ta5lv05pcG1AwunsUz2E4")
+client.run("NzM5NTIzOTYxMzA5NjI2Mzcw.XybtXA.uDxtbJ_s3GoIUC55QtPppqndHIo")
