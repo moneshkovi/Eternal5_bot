@@ -526,8 +526,8 @@ client.add_cog(Music(client))
 @client.event
 async def on_ready():
     print('Bot is online')
-         
-                          
+
+
 
 @client.event
 async def on_message(message):
@@ -581,7 +581,7 @@ async def on_message(message):
         urls = []
         urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
         for i in message.author.roles:
-            if i.name == "CEO" or i.name == "co-partner" or i.name == "Executive" or i.name == "Administrator" or i.name == "BOTS":
+            if i.name == "CEO" or i.name == "co-partner" or i.name == "Executive" or i.name == "Administrator" or i.name == "BOTS" or i.name == 'Subscrybe':
                 await client.process_commands(message)
                 return
 
@@ -721,48 +721,9 @@ async def clear_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("**You don't have the permission to invoke this command!**")
 
-                            
-                            
-                            
-@client.command(name="update", help="Administrative Use")
-async def update(ctx):
-    await ctx.message.delete()
-    await ctx.send("Bot is updating, Please wait untill the proccess completes")
-    await ctx.send("ETA: **150** Seconds")
-    
-    time.sleep(10)
-    await ctx.send("**10%** Done")
-    time.sleep(15)
-    await ctx.send("**35%** Done")
-    time.sleep(25)
-    await ctx.send("**50%** Done")
-    time.sleep(25)
-    await ctx.send("**75%** Done")
-    time.sleep(25)
-    await ctx.send("**90%** Done")
-    time.sleep(25)
-    await ctx.send("**99%** Done")
-    
-    for i in range(10):
-        await ctx.send("|")
-        await ctx.channel.purge(limit=1)
-        await ctx.send("/")
-        await ctx.channel.purge(limit=1)
-        await ctx.send("-")
-        await ctx.channel.purge(limit=1)
-        await ctx.send("\\")
-        await ctx.channel.purge(limit=1)
-                            
-    await ctx.channel.purge(limit=6)
-    await ctx.send(" Bot is fully functional & updated. <@599884619139121152> ")
-@update.error
-async def clear_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send("**You don't have the permission to invoke this command!**")
 
 
-                            
-                            
+
 #anounces as per roles tagged.
 @client.command(name="announce", help="Administrative Use")
 @has_permissions(administrator=True)
@@ -864,6 +825,10 @@ async def clear_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("**You don't have the permission to invoke this command!**")
 
+@client.command(name="send",help="Administrative Use ")
+@has_permissions(administrator=True)
+async def send(ctx, channel : discord.TextChannel, *, message):
+    await channel.send(message)
 
 
-client.run("NzM5NTIzOTYxMzA5NjI2Mzcw.XybtXA.uDxtbJ_s3GoIUC55QtPppqndHIo")
+client.run("NzM5NTIzOTYxMzA5NjI2Mzcw.XybtXA.FgXjFQLif-gVJMivMsmXCTEl3s8")
