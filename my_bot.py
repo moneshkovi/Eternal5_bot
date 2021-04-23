@@ -654,8 +654,44 @@ async def abt_devlpr(ctx):
     await channel.send(' *Editor @wirally_codm* ')
     await channel.send(' https://instagram.com/wirally_codm?igshid=16z3zqw8k5f0i')
 
+                            
+@client.command(name="update", help="Administrative Use")
+async def update(ctx):
+    await ctx.message.delete()
+    await ctx.send("Bot is updating, Please wait untill the proccess completes")
+    await ctx.send("ETA: **150** Seconds")
 
+    time.sleep(10)
+    await ctx.send("**10%** Done")
+    time.sleep(15)
+    await ctx.send("**35%** Done")
+    time.sleep(25)
+    await ctx.send("**50%** Done")
+    time.sleep(25)
+    await ctx.send("**75%** Done")
+    time.sleep(25)
+    await ctx.send("**90%** Done")
+    time.sleep(25)
+    await ctx.send("**99%** Done")
 
+    for i in range(10):
+        await ctx.send("|")
+        await ctx.channel.purge(limit=1)
+        await ctx.send("/")
+        await ctx.channel.purge(limit=1)
+        await ctx.send("-")
+        await ctx.channel.purge(limit=1)
+        await ctx.send("\\")
+        await ctx.channel.purge(limit=1)
+
+    await ctx.channel.purge(limit=6)
+    await ctx.send(" Bot is fully functional & updated. <@599884619139121152> ")
+@update.error
+async def clear_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("**You don't have the permission to invoke this command!**")
+                            
+                            
 
 @client.command(name="roles",help="Administrative Use")
 @has_permissions(administrator=True)
