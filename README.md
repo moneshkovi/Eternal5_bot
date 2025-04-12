@@ -79,11 +79,6 @@ python my_bot.py
 
 ---
 
-## 📜 License
-
-This project is licensed under the MIT License.
-
----
 
 > Built with ❤️ for Eternal5 Discord Community
 
