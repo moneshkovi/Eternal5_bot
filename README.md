@@ -33,3 +33,10 @@ colorlog
 PyNaCl  
 wheel  
 ffmpeg
+
+
+### Linux System Dependencies (Ubuntu-based)
+
+```bash
+sudo apt-get install libopus0 git libopus-dev libssl-dev libffi-dev libsodium-dev
+sudo add-apt-repository ppa:mc3man/xerus-media -y
